@@ -1,0 +1,49 @@
+d=linspace(50,150,21);
+for (i=1:length(d))
+{
+p1=d(i);
+?p1;
+select("Top");
+set("theta start",0);
+set("theta stop",p1);
+for (j=1:length(d))
+{
+select("Bottom");
+p2=d(j);
+?p2;
+set("theta start",p1);
+set("theta stop",p1+p2);
+#左旋
+select("Source_Ey");
+set("phase",90);
+run;
+T=transmission('T');
+f=getdata('T','f');
+lam = c/f*1e9;
+x=matrix(500,2);
+for (i1=1:500)
+{x(i1,1)=lam(i1);
+x(i1,2)=-T(i1);
+}
+cd("D:\Ring\left");
+filename="T_left_Top_"+num2str(d(i))+"_Bottom_"+num2str(d(j))+"_A1"+"_Al"+".txt";
+write(filename,num2str(x));
+switchtolayout;   #退出仿真模式
+select("Source_Ey");
+#右旋
+set("phase",-90);
+run;
+T=transmission('T');
+f=getdata('T','f');
+lam = c/f*1e9;
+y=matrix(500,2);
+for (i2=1:500)
+{y(i2,1)=lam(i2);
+y(i2,2)=-T(i2);
+}
+cd("D:\Ring\right");
+filename="T_right_Top_"+num2str(d(i))+"_Bottom_"+num2str(d(j))+"_A1"+"_Al"+".txt";
+write(filename,num2str(y));
+switchtolayout;   #退出仿真模式
+}
+}
