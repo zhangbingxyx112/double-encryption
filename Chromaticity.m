@@ -1,6 +1,6 @@
 function []=Chromaticity()
 figure;
-plotChromaticity;
+plotChromaticity;    %matlab 2018a 以下的版本此处换为cieplot2
 hold on
 x1=0.64;
 y1=0.33;
